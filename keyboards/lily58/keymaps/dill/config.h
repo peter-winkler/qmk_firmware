@@ -43,6 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SAT_STEP 17
 #define RGBLIGHT_VAL_STEP 17
 
+#define ENCODER_PAD_A { B11, C11 }
+
 // Underglow
 /*
 #undef RGBLED_NUM

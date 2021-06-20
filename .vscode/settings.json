@@ -22,5 +22,7 @@
     "[markdown]": {
         "editor.trimAutoWhitespace": false,
         "files.trimTrailingWhitespace": false
-    }
+    },
+    "editor.tabSize": 2,
+    "python.pythonPath": "C:\\Python39\\python.exe"
 }

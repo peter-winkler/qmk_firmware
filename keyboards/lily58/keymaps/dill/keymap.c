@@ -180,8 +180,7 @@ void virtser_recv(uint8_t serIn)
                 break;
             case EVENT_FLASH:
                 break;
-            case EVENT_MOUSE_MOVE:
-                {
+            case EVENT_MOUSE_MOVE: {
                     report_mouse_t current;
                     current = pointing_device_get_report();
                     current.x = buffer[1];
@@ -190,55 +189,35 @@ void virtser_recv(uint8_t serIn)
                     pointing_device_send();
                 }
                 break;
-            case EVENT_MOUSE_CLICK:
-                switch(buffer[1])
-                {
-                    case MOUSE_BUTTON_LEFT:
-                        SEND_STRING(SS_TAP(X_BTN1));
-                        break;
-                    case MOUSE_BUTTON_RIGHT:
-                        SEND_STRING(KC_BTN2);
-                        break;
-                    case MOUSE_BUTTON_MIDDLE:
-                        SEND_STRING(KC_BTN3);
-                        break;
+            case EVENT_MOUSE_CLICK: {
+                    register_code16(MOUSE_MAP[buffer[1]]);
+                    unregister_code16(MOUSE_MAP[buffer[1]]);
                 }
                 break;
-            case EVENT_MOUSE_PRESS:
-                switch(buffer[1])
-                {
-                    case MOUSE_BUTTON_LEFT:
-                        register_code(KC_BTN1)
-                        break;
-                    case MOUSE_BUTTON_RIGHT:
-                        register_code(KC_BTN2);
-                        break;
-                    case MOUSE_BUTTON_MIDDLE:
-                        register_code(KC_BTN3);
-                        break;
+            case EVENT_MOUSE_PRESS: {
+                    register_code16(MOUSE_MAP[buffer[1]]);
                 }
                 break;
-            case EVENT_MOUSE_RELEASE:
-                switch(buffer[1])
-                {
-                    case MOUSE_BUTTON_LEFT:
-                        unregister_code(KC_BTN1);
-                        break;
-                    case MOUSE_BUTTON_RIGHT:
-                        unregister_code(KC_BTN2);
-                        break;
-                    case MOUSE_BUTTON_MIDDLE:
-                        unregister_code(KC_BTN3);
-                        break;
+            case EVENT_MOUSE_RELEASE: {
+                    unregister_code16(MOUSE_MAP[buffer[1]]);
                 }
                 break;
-            case EVENT_KEYBOARD_PRESS:
+            case EVENT_KEYBOARD_PRESS: {
+                    register_code16(buffer[1]);
+                }
                 break;
-            case EVENT_KEYBOARD_RELEASE:
+            case EVENT_KEYBOARD_RELEASE: {
+                    unregister_code16(buffer[1]);
+                }
                 break;
-            case EVENT_KEYBOARD_RELEASE_ALL:
+            case EVENT_KEYBOARD_RELEASE_ALL: {
+                    // Currently unsupported
+                }
                 break;
-            case EVENT_KEYBOARD_PRESS_AND_RELEASE:
+            case EVENT_KEYBOARD_PRESS_AND_RELEASE: {
+                    register_code16(buffer[1]);
+                    unregister_code16(buffer[1]);
+                }
                 break;
         }
         marker = 0;
